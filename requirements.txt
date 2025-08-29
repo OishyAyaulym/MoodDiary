@@ -6,3 +6,4 @@ sentencepiece
 plotly
 openai
 supabase
+google-generativeai

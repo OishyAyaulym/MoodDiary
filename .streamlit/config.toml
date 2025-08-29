@@ -1,3 +1,8 @@
 [theme]
-base="dark"
-primaryColor="#914af5"
+primaryColor="#968cd2"
+backgroundColor="#f8f9fb"
+secondaryBackgroundColor="#f6f7fa"
+textColor="#2d303a"
+
+[client]
+showSidebarNavigation = false

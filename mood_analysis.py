@@ -1,11 +1,11 @@
-from openai import OpenAI
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import pandas as pd
 import streamlit as st
 from db import save_entry, get_entries_by_user
+import google.generativeai as genai
 
-client = OpenAI(api_key=st.secrets["openai_key"])
-
+genai.configure(api_key=st.secrets["gemini_key"])
+model=genai.GenerativeModel("gemini-2.0-flash")
 
 # --- Загрузка модели сентимент-анализа ---
 @st.cache_resource(show_spinner=False)
@@ -16,15 +16,8 @@ Determine the emotional tone of the following message. Respond with one word onl
 
 Message: {text}
 """
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are an assistant that classifies emotional tone from a user's message."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=300
-    )
-    sentiment = response.choices[0].message.content.strip().lower()
+    response=model.generate_content(prompt)
+    sentiment = response.text.strip().lower()
 
     # Чистим от лишнего (на всякий случай)
     if "positive" in sentiment:
@@ -44,27 +37,23 @@ def generate_support_and_advice(text, lang="ru"):
 
 \"{text}\"
 
-Сначала скажи: "Ваше настроение: [позитивное/нейтральное/негативное]", затем напиши от 5 до 10 поддерживающих фраз и полезные советы.
+Сначала скажи: "Ваше настроение: [позитивное/нейтральное/негативное]", затем напиши 5 поддерживающих фраз и полезные советы, каждый максимум по 1 предложению.
 """,
         "kk": f"""
 Сен — қамқор эмоционалды көмекшісің. Мына мәтін негізінде:
 
 \"{text}\"
 
-Басында: "Сіздің көңіл-күйіңіз: [позитивті/бейтарап/негативті]" деп айт. Сосын 5–тен 10-ға дейін нақты, қарапайым және мейірімді қолдау сөздер мен пайдалы кеңес бер. Күрделі немесе ақылға қонымсыз сөйлемдерді қолданба.
+Басында: "Сіздің көңіл-күйіңіз: [позитивті/бейтарап/негативті]" деп айт. Сосын 5 нақты, қарапайым және мейірімді қолдау сөздер мен пайдалы кеңес бер, әрқайсысы 1 сөйлемнен.
 """,
         "en": f"""
 You are a supportive emotional assistant. Based on this text:
 
 \"{text}\"
 
-Start with: "Your mood is: [positive/neutral/negative]", then write from 5 to 10 encouraging phrases and helpful piece of advice.
+Start with: "Your mood is: [positive/neutral/negative]", then write 5 encouraging phrases and helpful piece of advice, each maximum 1 sentence.
 """
     }
 
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": prompts[lang]}],
-        max_tokens=300
-    )
-    return response.choices[0].message.content.strip()
+    response=model.generate_content(prompts[lang])
+    return response.text.strip()
