@@ -47,8 +47,11 @@ st.markdown(
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    /* Стили кнопок */
-    .stButton > button {
+    /* Общий стиль для кнопок */
+    div.stButton > button, 
+    div.stButton button, 
+    .stButton button[kind="primary"], 
+    .stButton button[kind="secondary"] {
         background-color: #877BCC;
         color: white;
         border-radius: 12px;
@@ -57,19 +60,16 @@ st.markdown(
         border: none;
         box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         transition: all 0.3s ease;
-        width: 100%;
+        width: 100% !important;   /* фикс на деплой */
+        display: block;           /* чтобы растягивалось */
     }
-    .stButton > button:hover {
+
+    /* Hover эффект */
+    div.stButton > button:hover, 
+    .stButton button:hover {
         background-color: #C3BDE5;
         box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         transform: translateY(-2px);
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin: 40px 0;
     }
     </style>
     """,
@@ -189,58 +189,17 @@ st.markdown("---")
 st.write("© 2025 Aiauly")
 
 # Privacy Policy
-with st.expander("🔒 Privacy Policy"):
-    st.write("""
-    This Privacy Policy explains how Aiauly collects, uses, and protects your information.
-    
-    - We collect minimal data (email, username, mood entries) only for the functionality of the app.  
-    - Your data is stored securely in Supabase.  
-    - We do not share your information with third parties. 
-    
-    Please review this policy regularly for updates.
-    """)
+with st.expander(t("privacy_policy")):
+    st.write(t("privacy_policy_text"))
 
 # Terms of Service
-with st.expander("📜 Terms of Service"):
-    st.write("""
-    By using Aiauly, you agree to the following terms:
-    
-    1. This is not a medical or psychological service.  
-    2. The app is for personal self-care and mood tracking only.  
-    3. We are not responsible for decisions you make based on AI analysis.  
-    4. You agree not to misuse the service or share inappropriate content.  
-    
-    Continued use of the app means you accept these terms.
-    """)
+with st.expander(t("terms_of_service")):
+    st.write(t("terms_of_service_text"))
 
 # Help
-with st.expander("❓ Help"):
-    st.write("""
-    **How to use Aiauly:**
-    1. Register or log in to your personal account to start tracking your mood.
-    2. Write your daily thoughts or feelings in the text box.
-    3. Click **Analyze** to get AI feedback and helpful recommendations.
-    4. View your mood trends and insights on the charts.
-
-    **Forgot your password?**
-    - Currently, password recovery is not available.  
-    - If you forgot your login details, please create a new account with a different email.  
-    - Keep your login info safe for future use.
-
-    **Need more help?**
-    - For questions or support, contact us at: **support@aiauly.app**
-    - Check out the **Privacy Policy** and **Terms of Service** for additional info.
-    """)
+with st.expander(t("help")):
+    st.write(t("help_text"))
 
 # About
-with st.expander("ℹ️ About"):
-    st.write("""
-    **Aiauly** is an AI-powered mood diary designed to help people 
-    reflect on their emotions, track trends, and receive self-care advice.  
-    
-    - Project created in 2025  
-    - Founder: Aiaulym Oishy  
-    - Mission: To support mental well-being and self-reflection  
-    
-    Thank you for using Aiauly 💜
-    """)
+with st.expander(t("about")):
+    st.write(t("about_text"))

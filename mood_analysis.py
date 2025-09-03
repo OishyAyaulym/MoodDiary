@@ -1,7 +1,7 @@
 from datetime import datetime, date, timedelta
 import pandas as pd
 import streamlit as st
-from db import save_entry, get_entries_by_user
+from db import save_entry, get_entries_by_user, get_last_entries
 import google.generativeai as genai
 
 genai.configure(api_key=st.secrets["gemini_key"])

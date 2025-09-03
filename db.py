@@ -113,3 +113,8 @@ def check_anxiety_alert(user_id: str, days: int = 7, negative_days_threshold: in
     alert_needed = negative_days_count > negative_days_threshold and not action_today_done
 
     return alert_needed, negative_days_count
+
+def get_last_entries(user_id: str, n: int = 7):
+    response = supabase_service.table("entries").select("*") \
+        .eq("user_id", user_id).order("date", desc=True).limit(n).execute()
+    return response.data or []

@@ -1,5 +1,5 @@
 import streamlit as st
-from auth import signup_user, login_user
+from auth import signup_user, login_user, supabase
 from lang import t
 
 st.set_page_config(page_title="Aiauly", page_icon="logo.png", layout="centered")
@@ -37,8 +37,11 @@ st.markdown(
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    /* Стили кнопок */
-    .stButton > button {
+    /* Общий стиль для кнопок */
+    div.stButton > button, 
+    div.stButton button, 
+    .stButton button[kind="primary"], 
+    .stButton button[kind="secondary"] {
         background-color: #877BCC;
         color: white;
         border-radius: 12px;
@@ -47,19 +50,16 @@ st.markdown(
         border: none;
         box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         transition: all 0.3s ease;
-        width: 100%;
+        width: 100% !important;   /* фикс на деплой */
+        display: block;           /* чтобы растягивалось */
     }
-    .stButton > button:hover {
+
+    /* Hover эффект */
+    div.stButton > button:hover, 
+    .stButton button:hover {
         background-color: #C3BDE5;
         box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         transform: translateY(-2px);
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin: 40px 0;
     }
     """,
     unsafe_allow_html=True
@@ -167,7 +167,6 @@ if st.session_state["current_page"] == "auth":
         if st.button(t("no_account"), key="to_register"):
             st.session_state["auth_mode"] = "register"
             st.rerun()
-
 else:
     # Show landing page
     st.markdown(f"""

@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from lang import t
+import plotly.express as px
 
 
 def analyze_weekly_mood(df):
@@ -122,7 +123,9 @@ def plot_interactive_sentiment(df):
             ticktext=t('mood_labels'),
             range=[0, 4.1]
         ),
+        autosize=True,
         height=400,
-        margin=dict(l=40, r=40, t=20, b=40)
+        margin=dict(l=40, r=40, t=40, b=40)
     )
+    fig.update_xaxes(tickangle=-45)
     st.plotly_chart(fig, use_container_width=True)

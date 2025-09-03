@@ -49,7 +49,7 @@ def signup_user(username: str, email: str, password: str) -> bool:
     except Exception as e:
         st.error(f"{t('register_error')} {e}")
         return False
-
+    
 # --- Вход ---
 def login_user(email: str, password: str) -> bool:
     try:
