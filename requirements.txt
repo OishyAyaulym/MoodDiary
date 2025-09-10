@@ -4,5 +4,6 @@ torch
 pandas
 sentencepiece
 plotly
-supabase
+supabase-py
+protobuf==3.20.3
 google-generativeai
